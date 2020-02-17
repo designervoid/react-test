@@ -2,7 +2,7 @@ li {
   color: red;
 }
 li.nav_item.active_item, li.nav_item.active_item a {
-  color: green !important;
+  color: green;
 }
 a {
   text-decoration: none;
