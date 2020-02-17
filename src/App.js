@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './App.css';
 
 class App extends React.Component {
@@ -37,11 +37,11 @@ class App extends React.Component {
     return (
       <div>
       <Router>
+      <div>
+      <ul>
         {paths.map(path => {
           return (
-            <div key={path.id}>
-              <ul>
-                <li
+                <li key={path.id}
                   onClick={() => this.handleClick(path.id)}
                   className={
                     path.className +
@@ -50,10 +50,10 @@ class App extends React.Component {
                 >
                 <Link to={`${path.to === '/articles/:id' ? path.to = '/articles/5' : path.to}`}>{path.name}</Link>
                 </li>
-              </ul>
-            </div>
           );
         })}
+        </ul>
+        </div>
 
         <Switch>
           <Route path="/articles/:id">
