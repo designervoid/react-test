@@ -27,6 +27,16 @@ class App extends React.Component {
     activeLink: null
   };
 
+  componentDidMount() {
+    const { paths } = this.state;
+    const currentPath = window.location.pathname;
+    for (let element in paths) {
+      if (paths[element].to === currentPath) {
+        this.handleClick(paths[element].id)
+      }
+    }
+  }
+
   handleClick = id => {
     this.setState({ activeLink: id });
   };
