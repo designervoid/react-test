@@ -3,52 +3,57 @@ import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import "./App.css";
 
 class App extends React.Component {
-  state = {
-    paths: [
-      {
-        id: 1,
-        name: "Articles Information",
-        to: "/articles/:id",
-        className: "nav_item"
-      },
-      {
-        id: 2,
-        name: "Articles",
-        to: "/articles",
-        className: "nav_item"
-      },
-      {
-        id: 3,
-        name: "Home",
-        to: "/",
-        className: "nav_item"
-      }
-    ],
-    activeLink: null
-  };
+  constructor(props){
+    super(props)
+    this.state = {
+      paths: [
+        {
+          id: 1,
+          name: "Articles Information",
+          to: "/articles/:id",
+          className: "nav_item"
+        },
+        {
+          id: 2,
+          name: "Articles",
+          to: "/articles",
+          className: "nav_item"
+        },
+        {
+          id: 3,
+          name: "Home",
+          to: "/",
+          className: "nav_item"
+        }
+      ],
+      activeLink: null
+    }
+  }
 
   updateActiveLink() {
     const {paths} = this.state;
     const currentPath = window.location.pathname;
+    console.log(currentPath)
     for (let element in paths) {
       if (paths[element].to === currentPath) {
         this.handleClick(paths[element].id);
       }
     }
   }
-  componentDidMount() {
+
+  componentWillMount(){
     this.updateActiveLink();
   }
-
-  handleClick = id => {
-    this.setState({activeLink: id});
-  };
 
   componentDidUpdate() {
     window.onpopstate = e => {
       this.updateActiveLink();
     };
   }
+
+  handleClick = id => {
+    this.setState({activeLink: id});
+  };
 
   render() {
     const {paths, activeLink} = this.state;
