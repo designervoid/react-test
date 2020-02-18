@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './App.css';
 
@@ -48,7 +48,7 @@ class App extends React.Component {
                     (path.id === activeLink ? " active_item" : "")
                   }
                 >
-                <Link to={`${path.to === '/articles/:id' ? path.to = '/articles/5' : path.to}`}>{path.name}</Link>
+                <Link to={`${path.to === '/articles/:id' ? path.to = '/articles/1' : path.to}`}>{path.name}</Link>
                 </li>
           );
         })}
@@ -56,14 +56,11 @@ class App extends React.Component {
         </div>
 
         <Switch>
-          <Route path="/articles/:id">
-            <ArticleInformation />
+          <Route path="/articles/:id" component={ArticlesInformation}>
           </Route>
-          <Route path="/articles">
-            <Articles />
+          <Route path="/articles" component={Articles}>
           </Route>
-          <Route path="/">
-            <Home />
+          <Route path="/" component={Home}>
           </Route>
         </Switch>
         </Router>
@@ -72,17 +69,27 @@ class App extends React.Component {
   }
 }
 
-function ArticleInformation(props) {
-  return <h2>And this is Article Information {props.id}</h2>;
+class ArticlesInformation extends Component {
+  constructor(props) {
+     super(props);
+     this.routeParam = props.match.params.id;
+   }
+
+  render() {
+    return <h2>Articles Information Props {this.routeParam}</h2>;
+  }
 }
 
-function Articles() {
-  return <h2>Articles</h2>;
+class Articles extends Component {
+  render() {
+    return <h2>Articles</h2>;
+  }
 }
 
-function Home() {
-  return <h2>Home</h2>;
+class Home extends Component {
+  render() {
+    return <h2>Home</h2>;
+  }
 }
-
 
 export default App;
