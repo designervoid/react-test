@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import {BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import './App.css';
+import React, {Component} from "react";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import "./App.css";
 
 class App extends React.Component {
   state = {
@@ -8,7 +8,7 @@ class App extends React.Component {
       {
         id: 1,
         name: "Articles Information",
-        to: '/articles/:id',
+        to: "/articles/:id",
         className: "nav_item"
       },
       {
@@ -27,52 +27,67 @@ class App extends React.Component {
     activeLink: null
   };
 
-  componentDidMount() {
-    const { paths } = this.state;
+  updateActiveLink() {
+    const {paths} = this.state;
     const currentPath = window.location.pathname;
     for (let element in paths) {
       if (paths[element].to === currentPath) {
-        this.handleClick(paths[element].id)
+        this.handleClick(paths[element].id);
       }
     }
   }
+  componentDidMount() {
+    this.updateActiveLink();
+  }
 
   handleClick = id => {
-    this.setState({ activeLink: id });
+    this.setState({activeLink: id});
   };
 
+  componentDidUpdate() {
+    window.onpopstate = e => {
+      this.updateActiveLink();
+    };
+  }
+
   render() {
-    const { paths, activeLink } = this.state;
+    const {paths, activeLink} = this.state;
 
     return (
       <div>
-      <Router>
-      <div>
-      <ul>
-        {paths.map(path => {
-          return (
-                <li key={path.id}
-                  onClick={() => this.handleClick(path.id)}
-                  className={
-                    path.className +
-                    (path.id === activeLink ? " active_item" : "")
-                  }
-                >
-                <Link to={`${path.to === '/articles/:id' ? path.to = '/articles/1' : path.to}`}>{path.name}</Link>
-                </li>
-          );
-        })}
-        </ul>
-        </div>
+        <Router>
+          <div>
+            <ul>
+              {paths.map(path => {
+                return (
+                  <li
+                    key={path.id}
+                    onClick={() => this.handleClick(path.id)}
+                    className={
+                      path.className +
+                      (path.id === activeLink ? " active_item" : "")
+                    }
+                  >
+                    <Link
+                      to={`${
+                        path.to === "/articles/:id"
+                          ? (path.to = "/articles/1")
+                          : path.to
+                      }`}
+                    >
+                      {path.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
 
-        <Switch>
-          <Route path="/articles/:id" component={ArticlesInformation}>
-          </Route>
-          <Route path="/articles" component={Articles}>
-          </Route>
-          <Route path="/" component={Home}>
-          </Route>
-        </Switch>
+          <Switch>
+            <Route path="/articles/:id" component={ArticlesInformation}></Route>
+            <Route path="/articles" component={Articles}></Route>
+            <Route path="/" component={Home}></Route>
+          </Switch>
         </Router>
       </div>
     );
@@ -81,9 +96,9 @@ class App extends React.Component {
 
 class ArticlesInformation extends Component {
   constructor(props) {
-     super(props);
-     this.routeParam = props.match.params.id;
-   }
+    super(props);
+    this.routeParam = props.match.params.id;
+  }
 
   render() {
     return <h2>Articles Information Props {this.routeParam}</h2>;
