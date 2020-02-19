@@ -10,47 +10,45 @@ class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      paths: [
-        {
-          id: 1,
-          name: "Articles Information",
-          to: "/articles/:id",
-          className: "nav_item"
-        },
-        {
-          id: 2,
-          name: "Articles",
-          to: "/articles",
-          className: "nav_item"
-        },
-        {
-          id: 3,
-          name: "Home",
-          to: "/",
-          className: "nav_item"
-        }
-      ],
-      activeLink: null
+      paths: this.setPaths(),
+      activeLink: this.setActiveLink()
     }
   }
 
-  updateActiveLink() {
-    const {paths} = this.state;
+  setPaths() {
+    return [{
+      id: 1,
+      name: "Articles Information",
+      to: "/articles/:id",
+      className: "nav_item"
+    },
+    {
+      id: 2,
+      name: "Articles",
+      to: "/articles",
+      className: "nav_item"
+    },
+    {
+      id: 3,
+      name: "Home",
+      to: "/",
+      className: "nav_item"
+    }]
+  }
+
+  setActiveLink() {
     const currentPath = window.location.pathname;
+    const paths = this.setPaths()
     for (let element in paths) {
       if (paths[element].to === currentPath) {
-        this.handleClick(paths[element].id);
+        return paths[element].id
       }
     }
   }
 
-  UNSAFE_componentWillMount(){
-    this.updateActiveLink();
-  }
-
   componentDidUpdate() {
     history.listen((location, action) => {
-      this.updateActiveLink();
+      this.setActiveLink();
     });
   }
 
