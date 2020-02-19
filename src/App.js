@@ -11,7 +11,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       paths: this.setPaths(),
-      activeLink: this.setActiveLink()
+      activeLink: this.setActiveLinkBeforeMount()
     }
   }
 
@@ -36,7 +36,7 @@ class App extends React.Component {
     }]
   }
 
-  setActiveLink() {
+  setActiveLinkBeforeMount() {
     const currentPath = window.location.pathname;
     const paths = this.setPaths()
     for (let element in paths) {
@@ -46,9 +46,19 @@ class App extends React.Component {
     }
   }
 
+  setActiveLinkOnUpdate() {
+    const currentPath = window.location.pathname;
+    const paths = this.setPaths()
+    for (let element in paths) {
+      if (paths[element].to === currentPath) {
+        this.handleClick(paths[element].id)
+      }
+    }
+  }
+
   componentDidUpdate() {
     history.listen((location, action) => {
-      this.setActiveLink();
+      this.setActiveLinkOnUpdate();
     });
   }
 
