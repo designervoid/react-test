@@ -41,7 +41,7 @@ class App extends React.Component {
     }
   }
 
-  componentWillMount(){
+  UNSAFE_componentWillMount(){
     this.updateActiveLink();
   }
 
