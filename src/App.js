@@ -1,6 +1,10 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import "./App.css";
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
+
 
 class App extends React.Component {
   constructor(props){
@@ -33,7 +37,6 @@ class App extends React.Component {
   updateActiveLink() {
     const {paths} = this.state;
     const currentPath = window.location.pathname;
-    console.log(currentPath)
     for (let element in paths) {
       if (paths[element].to === currentPath) {
         this.handleClick(paths[element].id);
@@ -46,9 +49,9 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    window.onpopstate = e => {
+    history.listen((location, action) => {
       this.updateActiveLink();
-    };
+    });
   }
 
   handleClick = id => {
