@@ -40,6 +40,9 @@ class App extends React.Component {
     const currentPath = window.location.pathname;
     const paths = this.setPaths()
     for (let element in paths) {
+      if (paths[element].to.split('/').pop() === ':id') {
+        return +currentPath.split('/').pop()
+      }
       if (paths[element].to === currentPath) {
         return paths[element].id
       }
@@ -48,8 +51,11 @@ class App extends React.Component {
 
   setActiveLinkOnUpdate() {
     const currentPath = window.location.pathname;
-    const paths = this.setPaths()
+    const paths = this.setPaths();
     for (let element in paths) {
+      if (paths[element].to.split('/').pop() === ':id') {
+        this.handleClick(+currentPath.split('/').pop())
+      }
       if (paths[element].to === currentPath) {
         this.handleClick(paths[element].id)
       }
